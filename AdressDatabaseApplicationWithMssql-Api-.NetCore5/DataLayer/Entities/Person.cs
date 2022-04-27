@@ -14,7 +14,7 @@ namespace AdressDatabaseApplicationWithMssql_Api_.NetCore5.DataLayer.Entities
         public string NameSurname { get; set; }
         public DateTime BirthDate{ get; set; }
         public GenderType Gender { get; set; }
-        public List<Address> Addresses { get; set; }
-        public List<Contact> Contacts { get; set; }
+        public virtual List<Address> Addresses { get; set; }
+        public virtual List<Contact> Contacts { get; set; }
     }
 }

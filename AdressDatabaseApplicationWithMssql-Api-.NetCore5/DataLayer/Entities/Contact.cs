@@ -13,6 +13,6 @@ namespace AdressDatabaseApplicationWithMssql_Api_.NetCore5.DataLayer.Entities
         public int ContactID { get; set; }
         public ContactType ContactType { get; set; }
         public int PersonID { get; set; }
-        public Person Person { get; set; }
+        public virtual Person Person { get; set; }
     }
 }

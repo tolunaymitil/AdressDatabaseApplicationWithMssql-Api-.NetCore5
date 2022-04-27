@@ -14,7 +14,7 @@ namespace AdressDatabaseApplicationWithMssql_Api_.NetCore5.DataLayer.Entities
         public string County { get; set; }
         public string FullAddress { get; set; }
         public int PersonID { get; set; }
-        public Person Person { get; set; }
+        public virtual Person Person { get; set; }
 
     }
 }
