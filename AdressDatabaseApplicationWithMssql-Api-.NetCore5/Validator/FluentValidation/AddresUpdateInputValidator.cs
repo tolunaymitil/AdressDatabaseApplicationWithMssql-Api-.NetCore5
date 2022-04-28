@@ -8,6 +8,7 @@ namespace AdressDatabaseApplicationWithMssql_Api_.NetCore5.Validator.FluentValid
     public AddresUpdateInputValidator()
     {
       RuleFor(f => f.FullAddress).NotEmpty().WithMessage($"FullAddress boş bırakılamaz");
+          
     }
   }
 }
