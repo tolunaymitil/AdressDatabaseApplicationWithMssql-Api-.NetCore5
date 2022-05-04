@@ -12,7 +12,7 @@ namespace AdressDatabaseApplicationWithMssql_Api_.NetCore5.Dtos.Input.AddInput
         public DateTime BirthDate { get; set; }
         public string NameSurname { get; set; }
         public GenderType Gender { get; set; }
-        public List<AddresUpdateInput> Addresses { get; set; }
-        public List<ContactUpdateInput> Contacts { get; set; }
+        public List<AddressAddInput> Addresses { get; set; }
+        public List<ContactAddInput> Contacts { get; set; }
     }
 }

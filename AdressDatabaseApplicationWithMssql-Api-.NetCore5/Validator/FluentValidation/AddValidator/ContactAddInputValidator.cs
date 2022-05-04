@@ -3,6 +3,7 @@ using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace AdressDatabaseApplicationWithMssql_Api_.NetCore5.Validator.FluentValidation.AddValidator
@@ -13,7 +14,14 @@ namespace AdressDatabaseApplicationWithMssql_Api_.NetCore5.Validator.FluentValid
         {
             RuleFor(x => x.ContactType).NotEmpty().WithMessage("İletişim Tipini Boş Geçemezsiniz");
 
-           
+            if ( )
+            {
+                RuleFor(x => x.ContactValue).EmailAddress();
+            }
+            else
+            {
+               
+            }
         }
     }
 }

@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 
 namespace AdressDatabaseApplicationWithMssql_Api_.NetCore5.Validator.FluentValidation.AddValidator
 {
-    public class PersonAddInputValidator : AbstractValidator<PersonAddInput>
+  public class PersonAddInputValidator : AbstractValidator<PersonAddInput>
+  {
+    public PersonAddInputValidator()
     {
-        public PersonAddInputValidator()
-        {
-            RuleFor(f => f.NameSurname).NotNull().WithMessage($"NameSurname Boş bırakılamaz");
-            
-        }
+      RuleFor(f => f.NameSurname).NotNull().WithMessage($"NameSurname Boş bırakılamaz");
+      RuleForEach(f => f.Addresses).SetValidator(new AddressAddInputValidator());
+      RuleForEach(f => f.Contacts).SetValidator(new ContactAddInputValidator());
     }
+  }
 }
