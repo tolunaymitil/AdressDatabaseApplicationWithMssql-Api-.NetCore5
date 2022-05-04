@@ -90,7 +90,7 @@ namespace AdressDatabaseApplicationWithMssql_Api_.NetCore5.Controllers
         {
           errors.Add(error.ErrorMessage);
         }
-        return BadRequest(validationResult.Errors);
+        return BadRequest(errors);
       }
       using var c = new Context();
 
