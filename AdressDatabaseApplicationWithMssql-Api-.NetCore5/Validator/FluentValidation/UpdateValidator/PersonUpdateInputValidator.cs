@@ -8,7 +8,8 @@ namespace AdressDatabaseApplicationWithMssql_Api_.NetCore5.Validator.FluentValid
     public PersonUpdateInputValidator()
     {
       RuleFor(f => f.NameSurname).NotNull().WithMessage($"NameSurname Boş bırakılamaz");
-     
-    }
+            RuleForEach(f => f.Addresses).SetValidator(new AddressUpdateInputValidator());
+           // RuleForEach(f => f.Contacts).SetValidator(new ContactUpdateInputValidator());
+        }
   }
 }

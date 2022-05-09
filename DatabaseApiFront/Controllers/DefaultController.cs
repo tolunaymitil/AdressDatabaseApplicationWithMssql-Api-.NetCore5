@@ -52,7 +52,7 @@ namespace DatabaseApiFront.Controllers
         gender=1,
       };
 
-      var client = new RestClient("http://localhost:5001/api/person");
+      var client = new RestClient("http://localhost:44377/api/person");
       client.Timeout = -1;
       var request = new RestRequest(Method.POST);
       request.AddHeader("Content-Type", "application/json");

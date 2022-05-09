@@ -3,12 +3,12 @@ using FluentValidation;
 
 namespace AdressDatabaseApplicationWithMssql_Api_.NetCore5.Validator.FluentValidation
 {
-  public class AddresUpdateInputValidator:AbstractValidator<AddresUpdateInput>
+  public class AddressUpdateInputValidator:AbstractValidator<AddresUpdateInput>
   {
-    public AddresUpdateInputValidator()
+    public AddressUpdateInputValidator()
     {
       RuleFor(f => f.FullAddress).NotEmpty().WithMessage($"FullAddress boş bırakılamaz");
-          
-    }
+       RuleFor(x => x.FullAddress).MinimumLength(50).WithMessage("Lütfen en az 50 karakter giriniz");
+        }
   }
 }
