@@ -35,7 +35,17 @@ namespace AdressDatabaseApplicationWithMssql_Api_.NetCore5
       {
         c.SwaggerDoc("v1", new OpenApiInfo { Title = "AdressDatabaseApplicationWithMssql_Api_.NetCore5", Version = "v1" });
       });
-
+      services.AddCors(options =>
+      {
+        options.AddPolicy(
+                  name: "AllowOrigin",
+                  builder =>
+                  {
+                    builder.AllowAnyOrigin()
+                          .AllowAnyMethod()
+                          .AllowAnyHeader();
+                  });
+      }); 
       services.AddAutoMapper(typeof(Startup));
     }
 
@@ -50,7 +60,7 @@ namespace AdressDatabaseApplicationWithMssql_Api_.NetCore5
       }
 
       //app.UseHttpsRedirection();
-
+      app.UseCors("AllowOrigin");
       app.UseRouting();
 
       app.UseAuthorization();

@@ -1,5 +1,6 @@
 ﻿using AdressDatabaseApplicationWithMssql_Api_.NetCore5.DataAccessLayer;
 using AdressDatabaseApplicationWithMssql_Api_.NetCore5.DataLayer.Entities;
+using AdressDatabaseApplicationWithMssql_Api_.NetCore5.DataLayer.Entities.Enum;
 using AdressDatabaseApplicationWithMssql_Api_.NetCore5.Dtos.Input;
 using AdressDatabaseApplicationWithMssql_Api_.NetCore5.Dtos.Input.AddInput;
 using AdressDatabaseApplicationWithMssql_Api_.NetCore5.Dtos.Input.GetAllWithPaging;
@@ -140,7 +141,15 @@ namespace AdressDatabaseApplicationWithMssql_Api_.NetCore5.Controllers
 
       if (string.IsNullOrEmpty(personGetAllWithPagingInput.NameSurname)==false)
       {
-        persons = persons.Where(f => f.NameSurname.Contains(personGetAllWithPagingInput.NameSurname));
+        persons = persons.Where(f => f.NameSurname.ToLower().Contains(personGetAllWithPagingInput.NameSurname.ToLower()));
+      }
+      if (personGetAllWithPagingInput.Gender!=GenderTypeWithNull.NULL)
+      {
+        persons = persons.Where(f => f.Gender == (GenderType)personGetAllWithPagingInput.Gender);
+      }
+      if (personGetAllWithPagingInput.BirthDate!=null)
+      {
+        persons = persons.Where(f => f.BirthDate>=personGetAllWithPagingInput.BirthDate);
       }
       if (personGetAllWithPagingInput.ContactQuery.Count>0)
       {
@@ -150,13 +159,35 @@ namespace AdressDatabaseApplicationWithMssql_Api_.NetCore5.Controllers
         }
       }
 
+      int totalCount = persons.Count();
+      List<string> cities = new List<string>();
+
+
+      foreach (var person in persons)
+      {
+        foreach (var address in person.Addresses)
+        {
+          if (cities.Any(f=>f== address.City)==false)
+          {
+            cities.Add(address.City);
+          }
+        }
+      
+      }
+
 
       persons = (Take > 0)
                       ? (persons.Skip(Skip).Take(Take))
                       : (persons);
 
+      List<PersonGetAllWithPagingResponse> mapped = _mapper.Map<List<PersonGetAllWithPagingResponse>>(persons);
+      return Ok(new PersonGetAllWithPagingWrapper
+      {
+        Rows = mapped,
+        TotalCount=totalCount,
+        CityNames= cities
 
-      return Ok();
+      });
 
     }
   }

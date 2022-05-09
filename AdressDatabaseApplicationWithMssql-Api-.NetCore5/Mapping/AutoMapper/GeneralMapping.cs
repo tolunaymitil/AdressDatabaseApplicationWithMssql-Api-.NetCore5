@@ -9,33 +9,38 @@ using AutoMapper;
 
 namespace AdressDatabaseApplicationWithMssql_Api_.NetCore5.Mapping.AutoMapper
 {
-    public class GeneralMapping : Profile
+  public class GeneralMapping : Profile
+  {
+    public GeneralMapping()
     {
-        public GeneralMapping()
-        {
-            CreateMap<PersonUpdateInput, Person>().ReverseMap();
-            CreateMap<AddresUpdateInput, Address>().ReverseMap();
-            CreateMap<ContactUpdateInput, Contact>().ReverseMap();
+      CreateMap<PersonUpdateInput, Person>().ReverseMap();
+      CreateMap<AddresUpdateInput, Address>().ReverseMap();
+      CreateMap<ContactUpdateInput, Contact>().ReverseMap();
 
-            CreateMap<PersonUpdateResponse, Person>().ReverseMap();
-            CreateMap<AddressUpdateResponse, Address>().ReverseMap();
-            CreateMap<ContactUpdateResponse, Contact>().ReverseMap();
+      CreateMap<PersonUpdateResponse, Person>().ReverseMap();
+      CreateMap<AddressUpdateResponse, Address>().ReverseMap();
+      CreateMap<ContactUpdateResponse, Contact>().ReverseMap();
 
-            CreateMap<PersonAddInput, Person>().ReverseMap();
-            CreateMap<AddressAddInput, Address>().ReverseMap();
-            CreateMap<ContactAddInput, Contact>().ReverseMap();
+      CreateMap<PersonAddInput, Person>().ReverseMap();
+      CreateMap<AddressAddInput, Address>().ReverseMap();
+      CreateMap<ContactAddInput, Contact>().ReverseMap();
 
-            CreateMap<PersonAddResponse, Person>().ReverseMap();
-            CreateMap<AddressAddResponse, Address>().ReverseMap();
-            CreateMap<ContactAddResponse, Contact>().ReverseMap();
+      CreateMap<PersonAddResponse, Person>().ReverseMap();
+      CreateMap<AddressAddResponse, Address>().ReverseMap();
+      CreateMap<ContactAddResponse, Contact>().ReverseMap();
 
-            CreateMap<PersonDeleteInput, Person>().ReverseMap();
-            CreateMap<AddressDeleteInput, Address>().ReverseMap();
-            CreateMap<ContactDeleteInput, Contact>().ReverseMap();
+      CreateMap<PersonDeleteInput, Person>().ReverseMap();
+      CreateMap<AddressDeleteInput, Address>().ReverseMap();
+      CreateMap<ContactDeleteInput, Contact>().ReverseMap();
 
-            CreateMap<PersonDeleteResponse, Person>().ReverseMap();
-            CreateMap<AddressDeleteResponse, Address>().ReverseMap();
-            CreateMap<ContactDeleteResponse, Contact>().ReverseMap();
-        }
+      CreateMap<PersonDeleteResponse, Person>().ReverseMap();
+      CreateMap<AddressDeleteResponse, Address>().ReverseMap();
+      CreateMap<ContactDeleteResponse, Contact>().ReverseMap();
+
+
+      CreateMap<PersonGetAllWithPagingResponse, Person>().ReverseMap();
+      CreateMap<AddressGetAllWithPagingResponse, Address>().ReverseMap();
+      CreateMap<ContactGetAllWithPagingResponse, Contact>().ReverseMap();
     }
+  }
 }
