@@ -137,75 +137,75 @@ namespace AdressDatabaseApplicationWithMssql_Api_.NetCore5.Controllers
       var c = new Context();
       int Take = personGetAllWithPagingInput.Take;
       int Skip = personGetAllWithPagingInput.Skip;
-      IQueryable<Person> persons= c.Persons.Include(f => f.Addresses).Include(f => f.Contacts).AsQueryable();
+      IQueryable<Person> persons = c.Persons.Include(f => f.Addresses).Include(f => f.Contacts).AsQueryable();
 
 
 
 
-      if (string.IsNullOrEmpty(personGetAllWithPagingInput.NameSurname)==false)
+      if (string.IsNullOrEmpty(personGetAllWithPagingInput.NameSurname) == false)
       {
         persons = persons.Where(f => f.NameSurname.ToLower().Contains(personGetAllWithPagingInput.NameSurname.ToLower()));
       }
-      if (personGetAllWithPagingInput.Gender!=GenderTypeWithNull.NULL)
+      if (personGetAllWithPagingInput.Gender != GenderTypeWithNull.NULL)
       {
         persons = persons.Where(f => f.Gender == (GenderType)personGetAllWithPagingInput.Gender);
       }
-            if (string.IsNullOrEmpty(personGetAllWithPagingInput.City) == false)
-            {
-                persons = persons.Where(f => f.Addresses.Any(f=>f.City==personGetAllWithPagingInput.City));
-            }
-      if (personGetAllWithPagingInput.BirthDate!=null)
+      if (string.IsNullOrEmpty(personGetAllWithPagingInput.City) == false)
       {
-        persons = persons.Where(f => f.BirthDate>=personGetAllWithPagingInput.BirthDate);
+        persons = persons.Where(f => f.Addresses.Any(f => f.City == personGetAllWithPagingInput.City));
       }
-      
-      if (personGetAllWithPagingInput.ContactQuery.Count>0)
+      if (personGetAllWithPagingInput.BirthDate != null)
+      {
+        persons = persons.Where(f => f.BirthDate >= personGetAllWithPagingInput.BirthDate);
+      }
+
+      if (personGetAllWithPagingInput.ContactQuery.Count > 0)
       {
         foreach (var item in personGetAllWithPagingInput.ContactQuery)
         {
-          persons = persons.Where(x => x.Contacts.Any(f => f.ContactType == item.ContactType && f.ContactValue==item.ContactValue));
+          persons = persons.Where(x => x.Contacts.Any(f => f.ContactType == item.ContactType && f.ContactValue == item.ContactValue));
         }
       }
-           
+
 
       int totalCount = persons.Count();
       List<string> cities = new List<string>();
-      
 
-            foreach (var person in persons)
+
+      foreach (var person in persons)
       {
         foreach (var address in person.Addresses)
         {
-          if (cities.Any(f=>f== address.City)==false)
+          if (cities.Any(f => f == address.City) == false)
           {
             cities.Add(address.City);
           }
         }
-      
+
       }
-            List<string> counties = new List<string>();
-            foreach (var person in persons)
-            {
-                foreach (var address in person.Addresses)
-                {
-                    if (counties.Any(f => f == address.County) == false)
-                    {
-                        counties.Add(address.County);
-                    }
-                }
+      List<string> counties = new List<string>();
+      foreach (var person in persons)
+      {
+        foreach (var address in person.Addresses)
+        {
+          if (counties.Any(f => f == address.County) == false)
+          {
+            counties.Add(address.County);
+          }
+        }
 
-            }
+      }
 
-            persons = (Take > 0)
-                      ? (persons.Skip(Skip).Take(Take))
-                      : (persons);
+      persons = (Take > 0)
+                ? (persons.Skip(Skip).Take(Take))
+                : (persons);
 
       List<PersonGetAllWithPagingResponse> mapped = _mapper.Map<List<PersonGetAllWithPagingResponse>>(persons);
       return Ok(new PersonGetAllWithPagingWrapper
       {
         Rows = mapped,
-        TotalCount=totalCount,
-        CityNames= cities,
+        TotalCount = totalCount,
+        CityNames = cities,
         CountyNames = counties
       });
 

@@ -1,70 +1,85 @@
 ﻿$(window).ready(function () {
-    GetAllWithPagging();
+  GetAllWithPagging();
 });
 const personTableDomEl = $("#personTable")
 const personTableBodyDomEl = $("#personTable tbody")
 const searchFullname = $("#search_Fullname");
 const searchCitySelectEl = $("#search_City");
+const searchCountySelectEl = $("#search_County");
 const searchGender = $("#search_Gender");
 const searchBirthDate = $("#search_BirthDate");
 const searchEmail = $("#search_Email");
 const requestBody = {
-    "nameSurname": "",
-    "birthDate": "1900-01-01",
-    "gender": 0,
+  "nameSurname": "",
+  "birthDate": "1900-01-01",
+  "gender": 0,
 
-    "contactQuery": [],
-    "Email": "",
-    "addressCity": "",
-    "take": 100,
-    "skip": 0
+  "contactQuery": [],
+  "Email": "",
+  "city": "",
+  "take": 100,
+  "skip": 0
 };
 
 
 function GetAllWithPagging() {
 
-    $.ajax({
-        type: "POST",
-        url: "https://localhost:44377/api/Person/PersonGetAllWithPaging",
-        data: JSON.stringify(requestBody),
-        contentType: "application/json",
-        cache: false,
-        success: function (data) {
-            console.log(data);
-            CreateCitySelectBox(data.cityNames);
-            CreateTable(data.rows);
-        },
-        error: function (err) {
-            console.error(err);
-        }
+  $.ajax({
+    type: "POST",
+    url: `${ApiBaseUrl}/Person/PersonGetAllWithPaging`,
+    data: JSON.stringify(requestBody),
+    contentType: "application/json",
+    cache: false,
+    success: function (data) {
+      console.log(data);
+      CreateCitySelectBox(data.cityNames);
+      CreateCountySelectBox(data.countyNames);
+      CreateTable(data.rows);
+    },
+    error: function (err) {
+      console.error(err);
+    }
 
-    });
+  });
 }
 
 function CreateCitySelectBox(cityNames) {
-    searchCitySelectEl.html(`<option value="">Select City</option>`);
+  searchCitySelectEl.html(`<option value="">Select City</option>`);
 
-    cityNames.forEach(function (item) {
-        searchCitySelectEl.append(` 
+  cityNames.forEach(function (item) {
+    searchCitySelectEl.append(` 
   
                   <option value="${item}">${item}</option>
   
               `);
-    })
+  })
+
+
+}
+function CreateCountySelectBox(countyNames) {
+  searchCountySelectEl.html(`<option value="">Select County</option>`);
+
+  countyNames.forEach(function (item) {
+    searchCountySelectEl.append(`
+  
+                  <option value="${item}">${item}</option>
+  
+              `);
+  })
 
 
 }
 function CreateTable(data) {
-    personTableBodyDomEl.html("");
-    data.forEach(function (item, index) {
-        personTableBodyDomEl.append(GetTRTAG(item, index));
-    })
+  personTableBodyDomEl.html("");
+  data.forEach(function (item, index) {
+    personTableBodyDomEl.append(GetTRTAG(item, index));
+  })
 }
 function GetTRTAG(item, index) {
 
-    let birtDate = new Date(item.birthDate);
-    index++;
-    return ` <tr>
+  let birtDate = new Date(item.birthDate);
+  index++;
+  return ` <tr>
               <th scope="row">${index}</th>
               
               <td>${item.nameSurname}</td>
@@ -77,72 +92,74 @@ function GetTRTAG(item, index) {
 }
 
 $("#takePersonTableItem").change(function () {
-    if ($(this).val() == null || $(this).val() == "" || $(this).val() == undefined) {
-        return;
-    }
-    requestBody.take = parseInt($(this).val());
-    console.log(requestBody);
-    GetAllWithPagging();
+  if ($(this).val() == null || $(this).val() == "" || $(this).val() == undefined) {
+    return;
+  }
+  requestBody.take = parseInt($(this).val());
+  console.log(requestBody);
+  GetAllWithPagging();
 })
 
 
 $("#search_Btn").click(function () {
-    if (IsStringNullOrEmpty(searchFullname.val()) == false) {
-        requestBody.nameSurname = searchFullname.val();
-    } else {
-        requestBody.nameSurname = "";
-    }
+  if (IsStringNullOrEmpty(searchFullname.val()) == false) {
+    requestBody.nameSurname = searchFullname.val();
+  } else {
+    requestBody.nameSurname = "";
+  }
 
 
 
 
-    if (searchGender.val() != "0") {
-        requestBody.gender = parseInt(searchGender.val());
-    }
-    else {
-        requestBody.gender = 0;
-    }
+  if (searchGender.val() != "0") {
+    requestBody.gender = parseInt(searchGender.val());
+  }
+  else {
+    requestBody.gender = 0;
+  }
 
-    if (IsNullOrUndefined(searchBirthDate.val()) == false && searchBirthDate.val() == "1900-01-01") {
-        requestBody.birthDate = searchBirthDate.val();
-    } else {
-        requestBody.birthDate = "1900-01-01";
-    }
-    if (searchCitySelectEl.val() != "0") {
-        requestBody.cityNames = parseInt(searchCitySelectEl.val());
-    }
-    else {
-        requestBody.cityNames = 0;
-    }
+  if (IsNullOrUndefined(searchBirthDate.val()) == false && searchBirthDate.val() == "1900-01-01") {
+    requestBody.birthDate = searchBirthDate.val();
+  } else {
+    requestBody.birthDate = "1900-01-01";
+  }
+  if (searchCitySelectEl.val() != undefined) {
+    requestBody.city = searchCitySelectEl.val();
+  }
+  else {
+    requestBody.city = 0;
+  }
 
 
-    GetAllWithPagging();
+  if (IsStringNullOrEmpty(searchEmail.val()) == false) {
+    const contactQueryEmail = {
+      contactType: 1,
+      contactValue: searchEmail.val()
+    };
+
+    requestBody.contactQuery = requestBody.contactQuery.filter(f => f.contactType != 1);
+    requestBody.contactQuery.push(contactQueryEmail);
+  } else {
+    requestBody.contactQuery = requestBody.contactQuery.filter(f => f.contactType != 1);
+  }
+
+
+
+
+  GetAllWithPagging();
 })
 
-function IsStringNullOrEmpty(value) {
 
-    if (value == "" || value == undefined || value == null) {
-        return true;
-    }
-    return false;
-}
-function IsNullOrUndefined(value) {
-
-    if (value == undefined || value == null) {
-        return true;
-    }
-    return false;
-}
 
 
 
 $("#search_Deneme").keyup(function () {
-    alert($(this).val())
+  alert($(this).val())
 
 })
 
 $("#search_Btnexit").click(function () {
-    alert($(searchFullname).val())
+  alert($(searchFullname).val())
 })
 
 

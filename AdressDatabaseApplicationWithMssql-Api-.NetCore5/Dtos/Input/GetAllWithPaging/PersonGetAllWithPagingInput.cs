@@ -24,9 +24,9 @@ namespace AdressDatabaseApplicationWithMssql_Api_.NetCore5.Dtos.Input.GetAllWith
   }
   public class ContactQueryInput
   {
-    public ContactType ContactType { get; set; }
-    public string ContactValue { get; set; }
+    public ContactType ContactType { get; set; } //1
+    public string ContactValue { get; set; } //zafer.krk@hotmail.com
        
-    }
+  }
     
 }
