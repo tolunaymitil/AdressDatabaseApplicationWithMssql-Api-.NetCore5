@@ -11,7 +11,7 @@ namespace AdressDatabaseApplicationWithMssql_Api_.NetCore5.Dtos.Input.GetAllWith
     public DateTime? BirthDate { get; set; }
     public GenderTypeWithNull Gender { get; set; }
     public List<ContactQueryInput> ContactQuery { get; set; }
-    public string AddressCity { get; set; }
+    public string City { get; set; }
 
     public int Take { get; set; }
     public int Skip { get; set; }
@@ -26,5 +26,7 @@ namespace AdressDatabaseApplicationWithMssql_Api_.NetCore5.Dtos.Input.GetAllWith
   {
     public ContactType ContactType { get; set; }
     public string ContactValue { get; set; }
-  }
+       
+    }
+    
 }

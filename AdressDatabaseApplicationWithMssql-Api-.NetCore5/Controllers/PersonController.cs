@@ -139,6 +139,9 @@ namespace AdressDatabaseApplicationWithMssql_Api_.NetCore5.Controllers
       int Skip = personGetAllWithPagingInput.Skip;
       IQueryable<Person> persons= c.Persons.Include(f => f.Addresses).Include(f => f.Contacts).AsQueryable();
 
+
+
+
       if (string.IsNullOrEmpty(personGetAllWithPagingInput.NameSurname)==false)
       {
         persons = persons.Where(f => f.NameSurname.ToLower().Contains(personGetAllWithPagingInput.NameSurname.ToLower()));
@@ -147,10 +150,15 @@ namespace AdressDatabaseApplicationWithMssql_Api_.NetCore5.Controllers
       {
         persons = persons.Where(f => f.Gender == (GenderType)personGetAllWithPagingInput.Gender);
       }
+            if (string.IsNullOrEmpty(personGetAllWithPagingInput.City) == false)
+            {
+                persons = persons.Where(f => f.Addresses.Any(f=>f.City==personGetAllWithPagingInput.City));
+            }
       if (personGetAllWithPagingInput.BirthDate!=null)
       {
         persons = persons.Where(f => f.BirthDate>=personGetAllWithPagingInput.BirthDate);
       }
+      
       if (personGetAllWithPagingInput.ContactQuery.Count>0)
       {
         foreach (var item in personGetAllWithPagingInput.ContactQuery)
@@ -158,12 +166,13 @@ namespace AdressDatabaseApplicationWithMssql_Api_.NetCore5.Controllers
           persons = persons.Where(x => x.Contacts.Any(f => f.ContactType == item.ContactType && f.ContactValue==item.ContactValue));
         }
       }
+           
 
       int totalCount = persons.Count();
       List<string> cities = new List<string>();
+      
 
-
-      foreach (var person in persons)
+            foreach (var person in persons)
       {
         foreach (var address in person.Addresses)
         {
@@ -174,9 +183,20 @@ namespace AdressDatabaseApplicationWithMssql_Api_.NetCore5.Controllers
         }
       
       }
+            List<string> counties = new List<string>();
+            foreach (var person in persons)
+            {
+                foreach (var address in person.Addresses)
+                {
+                    if (counties.Any(f => f == address.County) == false)
+                    {
+                        counties.Add(address.County);
+                    }
+                }
 
+            }
 
-      persons = (Take > 0)
+            persons = (Take > 0)
                       ? (persons.Skip(Skip).Take(Take))
                       : (persons);
 
@@ -185,8 +205,8 @@ namespace AdressDatabaseApplicationWithMssql_Api_.NetCore5.Controllers
       {
         Rows = mapped,
         TotalCount=totalCount,
-        CityNames= cities
-
+        CityNames= cities,
+        CountyNames = counties
       });
 
     }

@@ -2,11 +2,17 @@
 
 namespace MVC_UI.Controllers
 {
-  public class PersonController : Controller
-  {
-    public IActionResult Index()
+    public class PersonController : Controller
     {
-      return View();
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        public IActionResult PersonAdd()
+        {
+            return View();
+        }
     }
-  }
+
 }

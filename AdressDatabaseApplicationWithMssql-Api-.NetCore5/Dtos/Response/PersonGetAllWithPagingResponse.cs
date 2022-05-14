@@ -10,7 +10,8 @@ namespace AdressDatabaseApplicationWithMssql_Api_.NetCore5.Dtos.Response
     public List<PersonGetAllWithPagingResponse> Rows { get; set; }
     public int TotalCount { get; set; }
     public List<string> CityNames { get; set; }
-  }
+    public List<string> CountyNames { get; set; }
+    }
   public class PersonGetAllWithPagingResponse
   {
     public int PersonID { get; set; }

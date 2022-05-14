@@ -1,0 +1,55 @@
+﻿
+
+
+<div class="container">
+
+    <h1>Veritabanın Kişi Ekleme Sayfası</h1>
+    <br />
+
+    <button type="button" id="btnAddWriter" class="btn btn-outline-info">Yazar Ekle</button>
+
+    <div class="form-group">
+        <label class="text-muted">FullName</label>
+        <input type="text" class="form-control" id="Add_Fullname" placeholder="Full Name" />
+    </div>
+
+    <div class="form-group">
+        <label class="text-muted">Gender</label>
+        <select class="form-control" id="Add_Gender">
+            <option value="0">Select Gender</option>
+            <option value="1">Man</option>
+            <option value="2">Woman</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label class="text-muted">City</label>
+        <input type="text" class="form-control" id="Add_City" placeholder="City" />
+    </div>
+    <div class="form-group">
+        <label class="text-muted">County</label>
+        <input type="text" class="form-control" id="Add_County" placeholder="County" />
+    </div>
+    <div class="form-group">
+        <label class="text-muted">Full Adress</label>
+        <input type="text" class="form-control" id="Add_FullAdress" placeholder="Full Adress" />
+    </div>
+
+    <select class="form-control" id="Add_ContactType">
+        <option value="0">Select Contact Type</option>
+        <option value="1">E-mail</option>
+        <option value="2">Phone</option>
+        <option value="2">Whatsapp</option>
+    </select>
+    <div class="form-group">
+        <label class="text-muted">Contact Value</label>
+        <input type="text" class="form-control" id="Add_ContactValue" placeholder="Contact Value" />
+    </div>
+
+
+</div>
+
+
+@section Scripts {
+    <script type="text/javascript" src="~/js/Pages/AddPage.js"></script>
+}
