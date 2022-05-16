@@ -12,7 +12,7 @@ namespace AdressDatabaseApplicationWithMssql_Api_.NetCore5.Dtos.Input.GetAllWith
     public GenderTypeWithNull Gender { get; set; }
     public List<ContactQueryInput> ContactQuery { get; set; }
     public string City { get; set; }
-
+    public string County { get; set; }
     public int Take { get; set; }
     public int Skip { get; set; }
   }

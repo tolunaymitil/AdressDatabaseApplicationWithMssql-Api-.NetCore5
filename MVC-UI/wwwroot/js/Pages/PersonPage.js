@@ -9,11 +9,13 @@ const searchCountySelectEl = $("#search_County");
 const searchGender = $("#search_Gender");
 const searchBirthDate = $("#search_BirthDate");
 const searchEmail = $("#search_Email");
+const searchPhone = $("#search_Phone");
+const searchWhatsapp = $("#search_Whatsapp");
 const requestBody = {
   "nameSurname": "",
   "birthDate": "1900-01-01",
   "gender": 0,
-
+    "county": "",
   "contactQuery": [],
   "Email": "",
   "city": "",
@@ -26,7 +28,7 @@ function GetAllWithPagging() {
 
   $.ajax({
     type: "POST",
-    url: `${ApiBaseUrl}/Person/PersonGetAllWithPaging`,
+      url: "https://localhost:44377/api/Person/PersonGetAllWithPaging",
     data: JSON.stringify(requestBody),
     contentType: "application/json",
     cache: false,
@@ -72,10 +74,10 @@ function CreateCountySelectBox(countyNames) {
 function CreateTable(data) {
   personTableBodyDomEl.html("");
   data.forEach(function (item, index) {
-    personTableBodyDomEl.append(GetTRTAG(item, index));
+      personTableBodyDomEl.append(GetTable(item, index));
   })
 }
-function GetTRTAG(item, index) {
+function GetTable(item, index) {
 
   let birtDate = new Date(item.birthDate);
   index++;
@@ -128,7 +130,14 @@ $("#search_Btn").click(function () {
   }
   else {
     requestBody.city = 0;
-  }
+    }
+    if (searchCountySelectEl.val() != undefined) {
+        requestBody.county = searchCountySelectEl.val();
+
+    }
+    else {
+        requestBody.county = 0;
+    }
 
 
   if (IsStringNullOrEmpty(searchEmail.val()) == false) {
@@ -143,7 +152,31 @@ $("#search_Btn").click(function () {
     requestBody.contactQuery = requestBody.contactQuery.filter(f => f.contactType != 1);
   }
 
+    if (IsStringNullOrEmpty(searchPhone.val()) == false) {
+        const contactQueryPhone = {
+            contactType: 2,
+            contactValue: searchPhone.val()
+        };
+        requestBody.contactQuery = requestBody.contactQuery.filter(f => f.contactType != 2);
+        requestBody.contactQuery.push(contactQueryPhone);
 
+    }
+    else {
+        requestBody.contactQuery = requestBody.contactQuery.filter(f => f.contactType != 2);
+    }
+
+    if (IsStringNullOrEmpty(searchWhatsapp.val()) == false) {
+        const contactQueryWhatsapp = {
+            contactType: 3,
+            contactValue: searchWhatsapp.val()
+        };
+        requestBody.contactQuery = requestBody.contactQuery.filter(f => f.contactType != 3);
+        requestBody.contactQuery.push(contactQueryWhatsapp);
+
+    }
+    else {
+        requestBody.contactQuery = requestBody.contactQuery.filter(f => f.contactType != 3);
+    }
 
 
   GetAllWithPagging();
