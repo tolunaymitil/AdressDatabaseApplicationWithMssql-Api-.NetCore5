@@ -1,4 +1,4 @@
-﻿const ApiBaseUrl = "http://localhost:44377/api";
+﻿const ApiBaseUrl = "http://localhost:5001/api";
 
 function IsStringNullOrEmpty(value) {
 

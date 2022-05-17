@@ -80,7 +80,7 @@ namespace AdressDatabaseApplicationWithMssql_Api_.NetCore5.Controllers
             return Ok(personUpdateMapped);
         }
         [HttpPost]
-        public IActionResult PersonAdd(PersonAddInput personAddInput)
+        public IActionResult PersonAdd([FromBody]PersonAddInput personAddInput)
         {
             PersonAddInputValidator validationRules = new PersonAddInputValidator();
             ValidationResult validationResult = validationRules.Validate(personAddInput);

@@ -28,7 +28,7 @@ function GetAllWithPagging() {
 
   $.ajax({
     type: "POST",
-      url: "https://localhost:44377/api/Person/PersonGetAllWithPaging",
+    url: `${ApiBaseUrl}/api/Person/PersonGetAllWithPaging"`,
     data: JSON.stringify(requestBody),
     contentType: "application/json",
     cache: false,
