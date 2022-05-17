@@ -50,10 +50,10 @@ function addValidator(requestBody) {
 	if (IsStringNullOrEmpty(requestBody.nameSurname)) {
 		errors.push("Fullname is not empty");
 	}
-	if (IsStringNullOrEmpty(requestBody.city)) {
+	if (IsStringNullOrEmpty(requestBody.addresses.city)) {
 		errors.push("City is not empty");
 	}
-	if (IsStringNullOrEmpty(requestBody.county)) {
+	if (IsStringNullOrEmpty(requestBody.addresses.county)) {
 		errors.push("County is not empty");
 	}
 	
@@ -64,16 +64,16 @@ function addValidator(requestBody) {
     else {
 		requestBody.gender = parseInt(AddGender.val());
     }
-	if (IsStringNullOrEmpty(requestBody.fullAddress) || requestBody.fullAddress.length<50 || requestBody.fullAddress.length>150) {
+	if (IsStringNullOrEmpty(requestBody.addresses.fullAddress) || requestBody.addresses.fullAddress.length < 50 || requestBody.addresses.fullAddress.length>150) {
 		errors.push("Full Adress is less than 50 character or more than 150 character");
 	}
-	if (IsStringNullOrEmpty(requestBody.contactType) || requestBody.contactType==0) {
+	if (IsStringNullOrEmpty(requestBody.contacts.contactType) || requestBody.contacts.contactType==0) {
 		errors.push("Contact Type is not empty");
 	}
     else {
-		requestBody.contactType = parseInt(AddContactType.val());
+		requestBody.contacts.contactType = parseInt(AddContactType.val());
 	}
-	if (IsStringNullOrEmpty(requestBody.contactValue)) {
+	if (IsStringNullOrEmpty(requestBody.contacts.contactValue)) {
 		errors.push("Contact Value is not empty");
 	}
 	return errors;
@@ -86,18 +86,26 @@ $("#btnAddWriter").click(function () {
 
 
 
-	const requestBody = {};
+	const requestBody = [];
 
 
 
 	requestBody.nameSurname = AddFullName.val();
 	requestBody.gender = AddGender.val();
-	requestBody.city = AddCityEl.val();
-	requestBody.county = AddCountyEl.val();
-	requestBody.fullAddress = AddFullAdress.val();
-	
-	requestBody.contactType = AddContactType.val();
-	requestBody.contactValue = AddContactValue.val();
+	  
+	requestBody.addresses = [{
+		city: AddCityEl.val(),
+		county: AddCountyEl.val(),
+		fullAddress: AddFullAdress.val()
 
+	}]
+
+
+	requestBody.contacts = [{
+		contactType: AddContactType.val(),
+		contactValue: AddContactValue.val()
+    }]
+	
+	 
 	PersonAdd(requestBody);
 })

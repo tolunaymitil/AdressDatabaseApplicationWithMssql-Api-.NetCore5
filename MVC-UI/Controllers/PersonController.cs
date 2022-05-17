@@ -13,6 +13,10 @@ namespace MVC_UI.Controllers
         {
             return View();
         }
+        public IActionResult PersonDelete()
+        {
+            return View();
+        }
     }
 
 }
